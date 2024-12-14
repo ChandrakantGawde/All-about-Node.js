@@ -1,5 +1,7 @@
 const {createHmac, randomBytes} = require("node:crypto"); // Place this at the top of the file, outside of any function
 const {Schema, model} = require("mongoose");
+const { createTokenForUser } = require("../services/authentication");
+const { use } = require("../routes/user");
 
 const userSchema = new Schema({
     fullName: {
@@ -43,6 +45,21 @@ userSchema.pre("save", function (next) {
 
     next();
 });
+
+userSchema.static('matchPasswordAndGenrateToken',  async function(email, password){
+    const user = await this.findOne({email});
+    if(!user) throw new Error("User not found!");
+
+    const salt = user.salt;
+    const hashedPassword = user.password;
+
+    const userProvidedHash = createHmac("sha256", salt).update(password).digest("hex");
+    
+    if(hashedPassword !== userProvidedHash) throw new Error("Incorrect password");
+    
+    const token = createTokenForUser(user);
+    return token;
+})   
 
 const User = model("user", userSchema);
 module.exports = User;
