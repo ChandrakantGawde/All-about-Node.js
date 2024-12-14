@@ -1,0 +1,15 @@
+{
+  "name": "all-about-node",
+  "version": "1.0.0",
+  "description": "create blogging app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "All-about-Node.js"
+  },
+  "author": "Chandrakant Gawde",
+  "license": "ISC"
+}
