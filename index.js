@@ -5,6 +5,7 @@ const cookieParse = require("cookie-parser");
 const { render } = require("ejs");
 
 const userRouter = require('./routes/user');
+const blogRouter = require('./routes/blog');
 const cookieParser = require("cookie-parser");
 const { checkForAuthenticationCookie } = require("./middlewares/authentication");
 
@@ -18,7 +19,7 @@ app.set("views", path.resolve("./views"));
 
 app.use(express.urlencoded({ extended: false}));
 app.use(cookieParser());
-app.use(checkForAuthenticationCookie('token'))
+app.use(checkForAuthenticationCookie('token')); // genric middleware that check the token for all request 
 
 app.get("/", (req, res)=>{
     res.render("home", {
@@ -27,5 +28,6 @@ app.get("/", (req, res)=>{
 });
 
 app.use("/user", userRouter);
+app.use("/blog", blogRouter);
 
 app.listen(PORT, ()=> console.log(`Server Started at PORT: ${PORT}`));
