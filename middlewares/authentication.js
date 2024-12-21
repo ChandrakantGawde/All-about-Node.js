@@ -1,9 +1,9 @@
 const { validateToken } = require("../services/authentication");
 
-function checkForAuthenticationCookie(cookieName){
-    console.log("cookieName", cookieName)
+function checkForAuthenticationCookie(cookieName){      // use genric function parameter passed from outside 
+    console.log("cookieName", cookieName)               // return result
     return (req, res, next)=> {
-        const tokenCookieValue = req.cookies[cookieName];
+        const tokenCookieValue = req.cookies[cookieName]; // cookie parser
 
         if(!tokenCookieValue){
             return next();
