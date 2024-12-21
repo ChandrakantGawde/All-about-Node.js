@@ -1,6 +1,6 @@
 const JWT = require("jsonwebtoken");
 
-const secret = "$uperMan@123";
+const secret = "$uperMan@123"; // secret key for genrate token
 
 function createTokenForUser(user){
     const payload = {
