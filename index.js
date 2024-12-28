@@ -3,7 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cookieParse = require("cookie-parser");
 const { render } = require("ejs");
-
+const Blog = require("./models/blog");
 const userRouter = require('./routes/user');
 const blogRouter = require('./routes/blog');
 const cookieParser = require("cookie-parser");
@@ -20,10 +20,13 @@ app.set("views", path.resolve("./views"));
 app.use(express.urlencoded({ extended: false}));
 app.use(cookieParser());
 app.use(checkForAuthenticationCookie('token')); // genric middleware that check the token for all request 
+app.use(express.static(path.resolve("./public"))) // get satically image from public folder
 
-app.get("/", (req, res)=>{
+app.get("/", async (req, res)=>{
+    const allBlog = await Blog.find({});
     res.render("home", {
         user: req.user,
+        blogs: allBlog
     });
 });
 
